@@ -1897,6 +1897,14 @@ fn bindgen_test_layout_JSValue() {
         )
     );
 }
+extern "C" {
+    #[link_name = "__JS_NewFloat64__extern"]
+    pub fn __JS_NewFloat64(ctx: *mut JSContext, d: f64) -> JSValue;
+}
+extern "C" {
+    #[link_name = "JS_VALUE_IS_NAN__extern"]
+    pub fn JS_VALUE_IS_NAN(v: JSValue) -> ::std::os::raw::c_int;
+}
 pub type JSCFunction = ::std::option::Option<
     unsafe extern "C" fn(
         ctx: *mut JSContext,
@@ -2943,6 +2951,26 @@ extern "C" {
     pub fn JS_IsRegisteredClass(rt: *mut JSRuntime, class_id: JSClassID) -> ::std::os::raw::c_int;
 }
 extern "C" {
+    #[link_name = "JS_NewBool__extern"]
+    pub fn JS_NewBool(ctx: *mut JSContext, val: ::std::os::raw::c_int) -> JSValue;
+}
+extern "C" {
+    #[link_name = "JS_NewInt32__extern"]
+    pub fn JS_NewInt32(ctx: *mut JSContext, val: i32) -> JSValue;
+}
+extern "C" {
+    #[link_name = "JS_NewCatchOffset__extern"]
+    pub fn JS_NewCatchOffset(ctx: *mut JSContext, val: i32) -> JSValue;
+}
+extern "C" {
+    #[link_name = "JS_NewInt64__extern"]
+    pub fn JS_NewInt64(ctx: *mut JSContext, val: i64) -> JSValue;
+}
+extern "C" {
+    #[link_name = "JS_NewUint32__extern"]
+    pub fn JS_NewUint32(ctx: *mut JSContext, val: u32) -> JSValue;
+}
+extern "C" {
     pub fn JS_NewFloat64(ctx: *mut JSContext, d: f64) -> JSValue;
 }
 extern "C" {
@@ -2950,6 +2978,46 @@ extern "C" {
 }
 extern "C" {
     pub fn JS_NewBigUint64(ctx: *mut JSContext, v: u64) -> JSValue;
+}
+extern "C" {
+    #[link_name = "JS_IsNumber__extern"]
+    pub fn JS_IsNumber(v: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_IsBigInt__extern"]
+    pub fn JS_IsBigInt(ctx: *mut JSContext, v: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_IsBool__extern"]
+    pub fn JS_IsBool(v: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_IsNull__extern"]
+    pub fn JS_IsNull(v: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_IsUndefined__extern"]
+    pub fn JS_IsUndefined(v: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_IsException__extern"]
+    pub fn JS_IsException(v: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_IsUninitialized__extern"]
+    pub fn JS_IsUninitialized(v: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_IsString__extern"]
+    pub fn JS_IsString(v: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_IsSymbol__extern"]
+    pub fn JS_IsSymbol(v: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_IsObject__extern"]
+    pub fn JS_IsObject(v: JSValue) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn JS_Throw(ctx: *mut JSContext, obj: JSValue) -> JSValue;
@@ -3008,13 +3076,33 @@ extern "C" {
     pub fn __JS_FreeValue(ctx: *mut JSContext, v: JSValue);
 }
 extern "C" {
+    #[link_name = "JS_FreeValue__extern"]
+    pub fn JS_FreeValue(ctx: *mut JSContext, v: JSValue);
+}
+extern "C" {
     pub fn __JS_FreeValueRT(rt: *mut JSRuntime, v: JSValue);
+}
+extern "C" {
+    #[link_name = "JS_FreeValueRT__extern"]
+    pub fn JS_FreeValueRT(rt: *mut JSRuntime, v: JSValue);
+}
+extern "C" {
+    #[link_name = "JS_DupValue__extern"]
+    pub fn JS_DupValue(ctx: *mut JSContext, v: JSValue) -> JSValue;
+}
+extern "C" {
+    #[link_name = "JS_DupValueRT__extern"]
+    pub fn JS_DupValueRT(rt: *mut JSRuntime, v: JSValue) -> JSValue;
 }
 extern "C" {
     pub fn JS_ToBool(ctx: *mut JSContext, val: JSValue) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn JS_ToInt32(ctx: *mut JSContext, pres: *mut i32, val: JSValue) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_ToUint32__extern"]
+    pub fn JS_ToUint32(ctx: *mut JSContext, pres: *mut u32, val: JSValue) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn JS_ToInt64(ctx: *mut JSContext, pres: *mut i64, val: JSValue) -> ::std::os::raw::c_int;
@@ -3068,6 +3156,18 @@ extern "C" {
     ) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
+    #[link_name = "JS_ToCStringLen__extern"]
+    pub fn JS_ToCStringLen(
+        ctx: *mut JSContext,
+        plen: *mut usize,
+        val1: JSValue,
+    ) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    #[link_name = "JS_ToCString__extern"]
+    pub fn JS_ToCString(ctx: *mut JSContext, val1: JSValue) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
     pub fn JS_FreeCString(ctx: *mut JSContext, ptr: *const ::std::os::raw::c_char);
 }
 extern "C" {
@@ -3115,6 +3215,10 @@ extern "C" {
     ) -> JSValue;
 }
 extern "C" {
+    #[link_name = "JS_GetProperty__extern"]
+    pub fn JS_GetProperty(ctx: *mut JSContext, this_obj: JSValue, prop: JSAtom) -> JSValue;
+}
+extern "C" {
     pub fn JS_GetPropertyStr(
         ctx: *mut JSContext,
         this_obj: JSValue,
@@ -3131,6 +3235,15 @@ extern "C" {
         prop: JSAtom,
         val: JSValue,
         flags: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    #[link_name = "JS_SetProperty__extern"]
+    pub fn JS_SetProperty(
+        ctx: *mut JSContext,
+        this_obj: JSValue,
+        prop: JSAtom,
+        val: JSValue,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
@@ -3838,6 +3951,26 @@ extern "C" {
         magic: ::std::os::raw::c_int,
         data_len: ::std::os::raw::c_int,
         data: *mut JSValue,
+    ) -> JSValue;
+}
+extern "C" {
+    #[link_name = "JS_NewCFunction__extern"]
+    pub fn JS_NewCFunction(
+        ctx: *mut JSContext,
+        func: JSCFunction,
+        name: *const ::std::os::raw::c_char,
+        length: ::std::os::raw::c_int,
+    ) -> JSValue;
+}
+extern "C" {
+    #[link_name = "JS_NewCFunctionMagic__extern"]
+    pub fn JS_NewCFunctionMagic(
+        ctx: *mut JSContext,
+        func: JSCFunctionMagic,
+        name: *const ::std::os::raw::c_char,
+        length: ::std::os::raw::c_int,
+        cproto: JSCFunctionEnum,
+        magic: ::std::os::raw::c_int,
     ) -> JSValue;
 }
 extern "C" {

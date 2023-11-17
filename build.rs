@@ -11,7 +11,8 @@ fn main() {
     let dst = cmake::build("quickjs-ng").join("lib");
     #[cfg(windows)]
     let dst = {
-        if cfg!(target_env = "msvc") {
+        let target = env::var("TARGET").unwrap();
+        if !target.ends_with("windows-gnu") {
             panic!("MSVC is not supported. Use x86_64-pc-windows-gnu");
         }
 

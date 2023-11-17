@@ -22,12 +22,12 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
             toolchain: ${{ matrix.toolchain }}
-            target: ${{ matrix.os == 'windows-latest' && 'x86_64-pc-windows-gnu' || '' }}
             override: true
-      - name: Setup Rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-            toolchain: ${{ matrix.toolchain }}
-            override: true
+      - name: Install gnu toolchain on windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          rustup toolchain install stable-x86_64-pc-windows-gnu
+          rustup target add x86_64-pc-windows-gnu
+          rustup set default-host x86_64-pc-windows-gnu
       - name: Build
         run: cargo build --locked --release --all-targets

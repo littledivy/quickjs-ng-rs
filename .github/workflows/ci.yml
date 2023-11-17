@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  push:
+    branches: main
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ windows-latest, macos-latest,  ubuntu-latest ]
+        toolchain: [nightly]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Setup Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: ${{ matrix.toolchain }}
+            override: true
+      - name: Setup Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: ${{ matrix.toolchain }}
+            override: true
+      - name: Build
+        run: cargo build --locked --release --all-targets

@@ -11,6 +11,10 @@ fn main() {
     let dst = cmake::build("quickjs-ng").join("lib");
     #[cfg(windows)]
     let dst = {
+        if cfg!(target_env = "msvc") {
+            panic!("MSVC is not supported. Use x86_64-pc-windows-gnu");
+        }
+
         // - MinGW Makefiles generator does not support -Thost args
         // - `cmake` Visual Studio by default even when compile is GCC
         let command = Command::new("cmake")

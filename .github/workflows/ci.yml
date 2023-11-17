@@ -23,11 +23,9 @@ jobs:
         with:
             toolchain: ${{ matrix.toolchain }}
             override: true
-      - name: Install gnu toolchain on windows
+      - name: Build for Windows (GNU)
         if: matrix.os == 'windows-latest'
-        run: |
-          rustup toolchain install stable-x86_64-pc-windows-gnu
-          rustup target add x86_64-pc-windows-gnu
-          rustup set default-host x86_64-pc-windows-gnu
+        run: cargo build --target x86_64-pc-windows-gnu --locked --release --all-targets
       - name: Build
+        if: matrix.os != 'windows-latest'
         run: cargo build --locked --release --all-targets
